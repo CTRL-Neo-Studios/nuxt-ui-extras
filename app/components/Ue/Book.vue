@@ -59,7 +59,6 @@ export interface UBookSlots {
 import { computed, ref, useSlots, onMounted, watch, type CSSProperties } from 'vue'
 import { defu } from 'defu'
 import { useAppConfig } from '#imports'
-import twColors from 'tailwindcss/colors'
 
 export interface UBookProps {
 	title: string
@@ -100,6 +99,8 @@ export interface UBookProps {
 	ui?: UBookSlots
 }
 
+const $cm = useUeColorMapping()
+
 const props = withDefaults(defineProps<UBookProps>(), {
 	variant: 'stripe',
 	width: 196,
@@ -124,31 +125,6 @@ const ui = computed<UBookSlots>(() => {
 })
 
 // ---------------------------------------------------------------------------
-// Tailwind color palette lookup (static, tree-shakeable)
-// ---------------------------------------------------------------------------
-
-/**
- * Build a flat lookup: "red-500" → "#ef4444", "red" → "#ef4444" (shade 500)
- * Filters out non-palette entries (inherit, current, transparent, etc.)
- */
-const twColorMap: Record<string, string> = {}
-
-for (const [name, value] of Object.entries(twColors)) {
-	if (typeof value === 'string') {
-		twColorMap[name] = value
-		continue
-	}
-	if (typeof value === 'object' && value !== null) {
-		for (const [shade, hex] of Object.entries(value)) {
-			twColorMap[`${name}-${shade}`] = hex as string
-		}
-		if ('500' in value) {
-			twColorMap[name] = value[500 as unknown as keyof typeof value] as string
-		}
-	}
-}
-
-// ---------------------------------------------------------------------------
 // Color resolution
 // ---------------------------------------------------------------------------
 
@@ -156,24 +132,7 @@ const resolvedTokenColor = ref<string | undefined>()
 const resolvedTokenTextColor = ref<string | undefined>()
 
 function resolveToken(token: string, shade: number = 500): string | undefined {
-	if (typeof document !== 'undefined') {
-		const style = getComputedStyle(document.documentElement)
-		const candidates = [
-			`--color-${token}`,
-			`--ui-${token}`,
-			`--color-${token}-${shade}`,
-		]
-		for (const varName of candidates) {
-			const val = style.getPropertyValue(varName).trim()
-			if (val) return val
-		}
-	}
-
-	if (twColorMap[token]) {
-		return twColorMap[token]
-	}
-
-	return undefined
+	return $cm.resolveColorVariantKeywordToCssVariable(token, shade)
 }
 
 function syncColors() {

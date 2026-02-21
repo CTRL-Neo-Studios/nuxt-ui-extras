@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
+import type { NavigationMenuItem, ButtonProps } from "@nuxt/ui";
 
 const links = [{
 	label: 'Installation',
@@ -10,11 +10,28 @@ const links = [{
 	icon: 'i-lucide-blocks',
 	defaultOpen: true,
 	children: [{
-		label: 'Book',
+		label: 'UeBook',
 		to: '/components/book'
 	}, {
-		label: 'FocusEditable',
+		label: 'UeFocusEditable',
 		to: '/components/focus-editable'
+	}, {
+		label: 'UeLoadingDots',
+		to: '/components/loading-dots',
+	}]
+}, {
+	label: 'Animations',
+	icon: 'i-lucide-shell',
+	defaultOpen: true,
+	children: [{
+		label: 'UeAnimFadeIn',
+		to: '/components/anim/fade-in'
+	}, {
+		label: 'UeAnimFadeOut',
+		to: '/components/anim/fade-out'
+	}, {
+		label: 'UeAnimObfuscatedText',
+		to: '/components/anim/obfuscated-text'
 	}]
 }] satisfies NavigationMenuItem[]
 
@@ -38,7 +55,6 @@ const links = [{
 				/>
 			</template>
 		</UDashboardSidebar>
-
 		<slot/>
 	</UDashboardGroup>
 </template>
