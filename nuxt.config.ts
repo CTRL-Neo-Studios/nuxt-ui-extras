@@ -12,6 +12,5 @@ export default defineNuxtConfig({
 		"@nuxt/ui",
 		"@nuxtjs/mdc"
 	],
-	css: [resolve(__dirname, './app/assets/css/ue.css')],
 	compatibilityDate: '2026-02-15',
 })
