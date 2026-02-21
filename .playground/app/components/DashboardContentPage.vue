@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import {useRepoFilesUrl} from "~/composables/useRepoFilesUrl";
+
+const $cfg = useRuntimeConfig()
 const props = withDefaults(defineProps<{
 	title?: string,
 	description?: string,
-	source?: string
+	sourceUrl?: string
 }>(), {})
 </script>
 
@@ -13,7 +16,8 @@ const props = withDefaults(defineProps<{
 			:description
 			:links="[{
 				label: 'View Source on GitHub',
-
+				to: useRepoFilesUrl(sourceUrl),
+				external: true
 			}]"
 		/>
 		<UPageBody>
