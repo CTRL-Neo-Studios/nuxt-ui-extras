@@ -1,32 +1,32 @@
 {
-  "name": "@type32/nuxt-ui-extras",
-  "type": "module",
-  "version": "0.0.1",
-  "main": "./nuxt.config.ts",
-  "scripts": {
-    "dev": "nuxi dev .playground",
-    "dev:prepare": "nuxt prepare .playground",
-    "build": "nuxt build .playground",
-    "generate": "nuxt generate .playground",
-    "preview": "nuxt preview .playground"
-  },
-  "dependencies": {
-    "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "4.4.0",
-    "tailwindcss": "^4.2.0"
-  },
-  "devDependencies": {
-    "@nuxt/fonts": "0.14.0",
-    "@nuxtjs/mdc": "0.20.1",
-    "@types/node": "^24.10.13",
-    "nuxt": "^4.3.1",
-    "typescript": "^5.9.3",
-    "vue": "latest"
-  },
-  "trustedDependencies": [
-    "@parcel/watcher",
-    "esbuild",
-    "sharp",
-    "vue-demi"
-  ]
+	"name": "@type32/nuxt-ui-extras",
+	"type": "module",
+	"version": "0.0.1",
+	"main": "./nuxt.config.ts",
+	"scripts": {
+		"dev": "nuxi dev .playground",
+		"dev:prepare": "nuxt prepare .playground",
+		"build": "nuxt build .playground",
+		"generate": "nuxt generate .playground",
+		"preview": "nuxt preview .playground"
+	},
+	"dependencies": {
+		"@nuxt/image": "2.0.0",
+		"@nuxt/ui": "4.4.0",
+		"tailwindcss": "^4.2.0"
+	},
+	"devDependencies": {
+		"@nuxt/fonts": "0.14.0",
+		"@nuxtjs/mdc": "0.20.1",
+		"@types/node": "^24.10.13",
+		"nuxt": "^4.3.1",
+		"typescript": "^5.9.3",
+		"vue": "latest"
+	},
+	"trustedDependencies": [
+		"@parcel/watcher",
+		"esbuild",
+		"sharp",
+		"vue-demi"
+	]
 }
