@@ -21,6 +21,9 @@ const links = [{
 	}, {
 		label: 'UeAuroraBackground',
 		to: '/components/aurora-background',
+	}, {
+		label: 'UeSvgPattern',
+		to: '/components/svg-pattern',
 	}]
 }, {
 	label: 'Animations',

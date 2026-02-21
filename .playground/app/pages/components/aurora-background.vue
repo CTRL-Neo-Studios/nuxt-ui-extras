@@ -2,12 +2,12 @@
 </script>
 
 <template>
-	<DashboardContentPanel title="LoadingDots">
+	<DashboardContentPanel title="AuroraBackground">
 		<UContainer>
 			<DashboardContentPage
-				title="UeLoadingDots"
-				description="The LoadingDots component inspired by Vercel's Geist Design System."
-				sourceUrl="/components/Ue/LoadingDots.vue"
+				title="UeAuroraBackground"
+				description="The AuroraBackground component from Inspira UI: https://inspira-ui.com/docs/en/components/backgrounds/aurora-background"
+				sourceUrl="/components/Ue/AuroraBackground.vue"
 			>
 				<UeAuroraBackground/>
 			</DashboardContentPage>
