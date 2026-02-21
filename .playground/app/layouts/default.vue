@@ -18,6 +18,9 @@ const links = [{
 	}, {
 		label: 'UeLoadingDots',
 		to: '/components/loading-dots',
+	}, {
+		label: 'UeAuroraBackground',
+		to: '/components/aurora-background',
 	}]
 }, {
 	label: 'Animations',

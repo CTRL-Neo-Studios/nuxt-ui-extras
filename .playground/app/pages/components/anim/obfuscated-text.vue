@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const message = ref('')
+import {wait} from "lib0/promise";
+
+const message = ref('actual content')
 const ready = ref(false)
 
-setTimeout(() => loadMessage(), 5)
+loadMessage()
 
-function loadMessage() {
+async function loadMessage() {
+	await wait(5000)
 	message.value = 'actual content'
 	// Text updates but stays obfuscated (autoRevealOnChange=false).
 	// Flip `ready` to trigger the reveal:
@@ -51,12 +54,12 @@ function scrambleAgain() {
 						:text="message"
 						:reveal="ready"
 						:auto-reveal-on-change="false"
-						:duration="1000"
+						:duration="5000"
 						glitch
 						:glitch-interval="5000"
-						err-string="01"
 						@revealed="console.log('text revealed!')"
 					/>
+					<div>{{ready}}</div>
 
 					<UeAnimObfuscatedText
 						ref="obfRef"
