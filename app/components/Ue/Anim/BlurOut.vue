@@ -2,39 +2,55 @@
 import { ref, computed } from 'vue'
 import { Motion } from 'motion-v'
 
-export type FadeOrientation = 'ltr' | 'rtl' | 'ttb' | 'btt' | 'none'
-
-interface FadeOutProps {
-	/** @default 500 */
+interface BlurOutProps {
+	/**
+	 * Animation duration in milliseconds
+	 * @default 700
+	 */
 	duration?: number
-	/** @default 'btt' */
-	orientation?: FadeOrientation
-	/** @default 24 */
-	offset?: number
-	/** @default 0 */
+	/**
+	 * Max blur radius in pixels
+	 * @default 8
+	 */
+	amount?: number
+	/**
+	 * Delay before animation starts (ms)
+	 * @default 0
+	 */
 	delay?: number
-	/** @default [0.16, 1, 0.3, 1] */
+	/**
+	 * CSS easing array or string
+	 * @default [0.16, 1, 0.3, 1]
+	 */
 	easing?: number[] | string
-	/** @default 0.1 */
+	/**
+	 * IntersectionObserver threshold (0-1).
+	 * @default 0.1
+	 */
 	threshold?: number
-	/** @default false */
+	/**
+	 * Replay when re-entering viewport, or only once.
+	 * @default false
+	 */
 	once?: boolean
-	/** @default 'div' */
+	/**
+	 * HTML tag to render as the wrapper element
+	 * @default 'div'
+	 */
 	as?: string
 	/**
-	 * Programmatically force the fade-out triggering mechanism.
-	 * - `true`: Forces element to fade out (bypasses scroll)
-	 * - `false`: Forces element to stay visible (bypasses scroll)
+	 * Programmatically force the blur-out triggering mechanism.
+	 * - `true`: Forces element to blur out (bypasses scroll)
+	 * - `false`: Forces element to stay visible/clear (bypasses scroll)
 	 * - `undefined`: Relies on standard scroll interaction (`while-in-view`)
 	 * @default undefined
 	 */
 	forceTrigger?: boolean
 }
 
-const props = withDefaults(defineProps<FadeOutProps>(), {
-	duration: 500,
-	orientation: 'btt',
-	offset: 24,
+const props = withDefaults(defineProps<BlurOutProps>(), {
+	duration: 700,
+	amount: 8,
 	delay: 0,
 	easing: () => [0.16, 1, 0.3, 1],
 	threshold: 0.1,
@@ -43,26 +59,14 @@ const props = withDefaults(defineProps<FadeOutProps>(), {
 	forceTrigger: undefined,
 })
 
-const translateTo = computed(() => {
-	switch (props.orientation) {
-		case 'ltr': return { x: props.offset, y: 0 }
-		case 'rtl': return { x: -props.offset, y: 0 }
-		case 'ttb': return { y: props.offset, x: 0 }
-		case 'btt': return { y: -props.offset, x: 0 }
-		case 'none': return { x: 0, y: 0 }
-		default: return { y: -props.offset, x: 0 }
-	}
-})
-
 const initialParams = computed(() => ({
 	opacity: 1,
-	x: 0,
-	y: 0
+	filter: 'blur(0px)',
 }))
 
 const outParams = computed(() => ({
 	opacity: 0,
-	...translateTo.value
+	filter: `blur(${props.amount}px)`,
 }))
 
 const transitionParams = computed(() => ({
@@ -94,9 +98,9 @@ const currentWhileInView = computed(() => {
 
 /** Expose programmatic constraints for refs */
 defineExpose({
-	/** Triggers the fade out sequence */
+	/** Triggers the blur out sequence */
 	play: () => { manualTrigger.value = true },
-	/** Resets back to full visibility */
+	/** Resets back to full clarity/visibility */
 	reset: () => { manualTrigger.value = false },
 	/** Returns behavior control back to the scroll observer */
 	auto: () => { manualTrigger.value = null },

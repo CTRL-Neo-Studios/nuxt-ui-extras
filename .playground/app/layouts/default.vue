@@ -24,6 +24,15 @@ const links = [{
 	}, {
 		label: 'UeSvgPattern',
 		to: '/components/svg-pattern',
+	}, {
+		label: 'UeProgressiveBlur',
+		to: '/components/progressive-blur',
+	}, {
+		label: 'UeBlurGradient',
+		to: '/components/blur-gradient',
+	}, {
+		label: 'Ue3dCard',
+		to: '/components/3d-card',
 	}]
 }, {
 	label: 'Animations',
@@ -35,6 +44,12 @@ const links = [{
 	}, {
 		label: 'UeAnimFadeOut',
 		to: '/components/anim/fade-out'
+	}, {
+		label: 'UeAnimBlurIn',
+		to: '/components/anim/blur-in'
+	}, {
+		label: 'UeAnimBlurOut',
+		to: '/components/anim/blur-out'
 	}, {
 		label: 'UeAnimObfuscatedText',
 		to: '/components/anim/obfuscated-text'
