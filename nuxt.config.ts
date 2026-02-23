@@ -5,6 +5,9 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+	$meta: {
+		name: '@ctrl-neo/nuxt-ui-extras'
+	},
 	devtools: {enabled: true},
 	modules: [
 		"@nuxt/fonts",
