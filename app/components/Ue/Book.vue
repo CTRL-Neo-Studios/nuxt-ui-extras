@@ -24,36 +24,11 @@ export interface UBookSlots {
  * A 3D book component inspired by Vercel's Geist Design System.
  *
  * Features:
+ * - Truly Fluid/Responsive sizing: Works natively with CSS Grids. Use `w-full`, standard sizes,
+ *   or the backwards-compatible `width` prop.
  * - Two visual variants: "stripe" (split layout) and "simple" (solid layout)
  * - Interactive 3D hover effect with realistic page depth
- * - Customizable colors via Tailwind tokens, Nuxt UI semantic colors, or raw hex values
- * - Responsive width support with breakpoint-based sizing
- * - Texture overlay option for paper-like appearance
- * - Custom illustration slots for personalized content
- * - Clickable navigation support
- * - App-config integration for global styling overrides
- *
- * @example
- * <!-- Basic usage -->
- * <UeBook title="The user experience of the Frontend Cloud" />
- *
- * @example
- * <!-- With custom color -->
- * <UeBook
- *   title="Design Engineering at CTRL Neo Studios"
- *   hex-color="#7DC1C1"
- *   variant="simple"
- * />
- *
- * @example
- * <!-- With custom illustration -->
- * <UeBook title="The user experience of the Frontend Cloud">
- *   <template #illustration>
- *     <NuxtImg src="/custom-illustration.jpg" />
- *   </template>
- * </UeBook>
- *
- * @see https://vercel.com/geist/book - Original Geist Design System Book component
+ * - Customizable colors via Tailwind tokens
  */
 
 import { computed, ref, useSlots, onMounted, watch, type CSSProperties } from 'vue'
@@ -63,32 +38,15 @@ import { useAppConfig } from '#imports'
 export interface UBookProps {
 	title: string
 	variant?: 'stripe' | 'simple'
-	width?: number | Record<string, number>
 	/**
-	 * Color token name.
-	 *
-	 * Accepts:
-	 * - Nuxt UI semantic aliases: `primary`, `secondary`, `error`, …
-	 * - Tailwind palette names: `rose`, `emerald`, `blue`, …
-	 * - Tailwind palette + shade: `rose-300`, `blue-700`, …
-	 *
-	 * Overridden by `hexColor` when both are set.
+	 * Defines the base width footprint.
+	 * Accepts numbers (px), strings ('100%', '20rem', etc), or breakpoint objects.
+	 * Default is 196 for backwards compatibility.
 	 */
+	width?: string | number | Record<string, string | number>
 	color?: string
-	/**
-	 * Raw CSS color value (hex, rgb, hsl, oklch, …).
-	 * Takes priority over `color` when both are provided.
-	 */
 	hexColor?: string
-	/**
-	 * Color token name for text. Same format as `color`.
-	 * Overridden by `hexTextColor` when both are set.
-	 */
 	textColor?: string
-	/**
-	 * Raw CSS color value for text.
-	 * Takes priority over `textColor` when both are provided.
-	 */
 	hexTextColor?: string
 	textured?: boolean
 	pageThickness?: number
@@ -99,6 +57,7 @@ export interface UBookProps {
 	ui?: UBookSlots
 }
 
+// Assumes standard nuxt color mapper is available
 const $cm = useUeColorMapping()
 
 const props = withDefaults(defineProps<UBookProps>(), {
@@ -112,9 +71,6 @@ const props = withDefaults(defineProps<UBookProps>(), {
 const slots = useSlots()
 const hasIllustration = computed(() => !!slots.illustration)
 
-// ---------------------------------------------------------------------------
-// App-config integration
-// ---------------------------------------------------------------------------
 const appConfig = useAppConfig() as {
 	ui?: { book?: { slots?: UBookSlots } }
 }
@@ -123,10 +79,6 @@ const ui = computed<UBookSlots>(() => {
 	const appConfigBook = appConfig.ui?.book?.slots ?? {}
 	return defu(props.ui ?? {}, appConfigBook) as UBookSlots
 })
-
-// ---------------------------------------------------------------------------
-// Color resolution
-// ---------------------------------------------------------------------------
 
 const resolvedTokenColor = ref<string | undefined>()
 const resolvedTokenTextColor = ref<string | undefined>()
@@ -161,30 +113,27 @@ const perspectiveStyle = computed<CSSProperties>(() => {
 		'--_page-depth': `${props.pageThickness}px`,
 		'--_corner-radius': `${props.cornerRadius}px`,
 	}
-	if (typeof props.width === 'number') {
-		style['--book-width'] = props.width
-	} else {
+
+	// Feeds the variables natively rather than forcing a strict inline `width` property declaration.
+	// This permits Tailwind utility classes applied to the root to easily win.
+	if (typeof props.width === 'object' && props.width !== null) {
 		for (const [bp, val] of Object.entries(props.width)) {
-			style[`--${bp}-book-width`] = val
+			style[`--${bp}-book-width`] = typeof val === 'number' ? `${val}px` : val
 		}
+	} else if (props.width) {
+		style['--book-width'] = typeof props.width === 'number' ? `${props.width}px` : props.width
 	}
+
 	return style as CSSProperties
 })
 
 const wrapperStyle = computed<CSSProperties>(() => {
 	const style: Record<string, unknown> = {}
-	if (finalColor.value) {
-		style['--book-color'] = finalColor.value
-	}
-	if (finalTextColor.value) {
-		style['--book-text-color'] = finalTextColor.value
-	}
+	if (finalColor.value) style['--book-color'] = finalColor.value
+	if (finalTextColor.value) style['--book-text-color'] = finalTextColor.value
 	return style as CSSProperties
 })
 
-// ---------------------------------------------------------------------------
-// Class helpers
-// ---------------------------------------------------------------------------
 function slotClass(defaults: string | string[], slotKey: keyof UBookSlots, extra?: any): string {
 	const base = Array.isArray(defaults) ? defaults.filter(Boolean).join(' ') : defaults
 	const override = ui.value[slotKey] ?? ''
@@ -204,7 +153,7 @@ const wrapperClasses = computed(() =>
 	),
 )
 
-const isResponsive = computed(() => typeof props.width === 'object')
+const isResponsive = computed(() => typeof props.width === 'object' && props.width !== null)
 
 async function toLink() {
 	if (props.to)
@@ -215,11 +164,11 @@ async function toLink() {
 <template>
 	<div
 		:class="[
-            'book-perspective',
-            isResponsive ? 'book-responsive' : '',
-            ui.perspective,
-            $props.class,
-        ]"
+			'book-perspective',
+			isResponsive ? 'book-responsive' : '',
+			ui.perspective,
+			$props.class,
+		]"
 		:style="perspectiveStyle"
 		data-slot="perspective"
 		@click="toLink"
@@ -318,38 +267,45 @@ async function toLink() {
 </template>
 
 <style scoped>
+/*
+ * The :where() resets specificity to 0 so Tailwind's utility classes
+ * (like w-full, w-64) easily override the backwards-compatible width prop default!
+ */
+:where(.book-perspective) {
+	--_bw: var(--book-width, 196px);
+	width: var(--_bw);
+}
+
+:where(.book-perspective.book-responsive) {
+	--_bw: var(--sm-book-width, 196px);
+}
+@media (min-width: 768px) {
+	:where(.book-perspective.book-responsive) {
+		--_bw: var(--md-book-width, var(--sm-book-width, 196px));
+	}
+}
+@media (min-width: 1024px) {
+	:where(.book-perspective.book-responsive) {
+		--_bw: var(--lg-book-width, var(--md-book-width, var(--sm-book-width, 196px)));
+	}
+}
+
 .book-perspective {
-	--_bw: var(--book-width, 196);
-	--_ratio: 1.38;
 	--_page-depth: 24px;
 	--_corner-radius: 6px;
 	--_spine-width: 18px;
 
-	width: calc(var(--_bw) * 1px);
-	height: calc(var(--_bw) * var(--_ratio) * 1px);
-	perspective: 800px;
+	aspect-ratio: 1 / 1.38;
+	perspective: 1200px;
 	flex-shrink: 0;
 	cursor: default;
 }
 
-.book-perspective.book-responsive {
-	--_bw: var(--sm-book-width, 196);
-}
-@media (min-width: 768px) {
-	.book-perspective.book-responsive {
-		--_bw: var(--md-book-width, var(--sm-book-width, 196));
-	}
-}
-@media (min-width: 1024px) {
-	.book-perspective.book-responsive {
-		--_bw: var(--lg-book-width, var(--md-book-width, var(--sm-book-width, 196)));
-	}
-}
 
 .book-wrapper {
 	position: relative;
 	width: 100%;
-	height: 100%;
+	height: 100%; /* Height scales natively off the aspect-ratio map */
 	transform-style: preserve-3d;
 	transform: rotateY(0deg);
 	transform-origin: left center;
@@ -360,18 +316,7 @@ async function toLink() {
 	transform: rotateY(-22deg);
 }
 
-/* ── Front cover ──
-   All edge highlights are handled via inset box-shadows,
-   matching Vercel's Geist approach. No extra overlay divs needed.
-
-   Breakdown:
-   • 0 1.8px 3.6px #0000000d        → subtle drop shadow
-   • 0 10.8px 21.6px #00000014      → deeper ambient shadow
-   • inset 0 -0.9px #0000001a       → bottom inner edge (dark hairline)
-   • inset 0 1.8px 1.8px #ffffff1a  → top inner edge highlight (white glow)
-   • inset 3.6px 0 3.6px #0000001a  → left spine inner shadow
-*/
-
+/* ── Front cover ── */
 .book-cover {
 	position: absolute;
 	inset: 0;
@@ -391,38 +336,26 @@ async function toLink() {
 	pointer-events: none;
 	z-index: 10;
 	box-shadow:
-		/* Outer shadows — drop shadow beneath the book */
 		0 2px 4px rgba(0, 0, 0, 0.05),
 		0 12px 24px rgba(0, 0, 0, 0.08),
-
-			/* Bottom inner edge — dark hairline */
 		inset 0 -1px rgba(0, 0, 0, 0.1),
-
-			/* Top inner edge — white highlight, the bright line visible at the top */
 		inset 0 2px 2px rgba(255, 255, 255, 0.18),
-
-			/* Left spine inner shadow — the deep dark band on the left */
 		inset 4px 0 4px rgba(0, 0, 0, 0.12),
-
-			/* Right edge — very faint light catch */
 		inset -1px 0 1px rgba(255, 255, 255, 0.15);
 }
 
 @media (prefers-color-scheme: dark) {
 	.book-cover::after {
 		box-shadow:
-			/* outer shadows */
 			0 2px 4px rgba(0, 0, 0, 0.12),
 			0 12px 24px rgba(0, 0, 0, 0.2),
-
-			inset 0 -1px rgba(0, 0, 0, 0.2), /* bottom inner edge */
-			inset 0 2px 2px rgba(255, 255, 255, 0.18), /* top inner edge */
-			inset 4px 0 4px rgba(0, 0, 0, 0.2), /* left spine */
-			inset -1px 0 1px rgba(255, 255, 255, 0.15); /* Right edge */
+			inset 0 -1px rgba(0, 0, 0, 0.2),
+			inset 0 2px 2px rgba(255, 255, 255, 0.18),
+			inset 4px 0 4px rgba(0, 0, 0, 0.2),
+			inset -1px 0 1px rgba(255, 255, 255, 0.15);
 	}
 }
 
-/* ── Cover fade: subtle top-to-bottom white wash ── */
 .book-cover::before {
 	content: '';
 	position: absolute;
@@ -477,7 +410,7 @@ async function toLink() {
 	position: relative;
 	overflow: hidden;
 	background: var(--book-color, var(--ui-primary, var(--color-primary, #d97706)));
-	border-radius: 2px var(--_corner-radius) 0 0;  /* match top corners */
+	border-radius: 2px var(--_corner-radius) 0 0;
 }
 
 .has-color .book-stripe-top {
@@ -513,7 +446,7 @@ async function toLink() {
 	gap: 8px;
 	min-height: 76px;
 	overflow: hidden;
-	border-radius: 0 0 var(--_corner-radius) 2px;  /* match bottom corners */
+	border-radius: 0 0 var(--_corner-radius) 2px;
 }
 
 .book-simple-content {
@@ -524,7 +457,7 @@ async function toLink() {
 	padding: 16px 14px 14px calc(var(--_spine-width) + 4px);
 	background: var(--ui-bg-elevated);
 	overflow: hidden;
-	border-radius: 2px var(--_corner-radius) var(--_corner-radius) 2px;  /* match all corners */
+	border-radius: 2px var(--_corner-radius) var(--_corner-radius) 2px;
 }
 
 .has-color.is-simple .book-simple-content {
