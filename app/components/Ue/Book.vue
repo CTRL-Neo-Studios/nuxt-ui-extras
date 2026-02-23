@@ -21,29 +21,22 @@ export interface UBookSlots {
 /**
  * UeBook Component
  *
- * A 3D book component inspired by Vercel's Geist Design System.
- *
  * Features:
- * - Truly Fluid/Responsive sizing: Works natively with CSS Grids. Use `w-full`, standard sizes,
- *   or the backwards-compatible `width` prop.
+ * - Truly Fluid/Responsive sizing: Works natively with CSS Grids.
+ *   Set sizes using standard Tailwind classes (e.g. `w-full`, `w-48`).
+ *   Defaults to `w-[196px]` if no class is provided.
  * - Two visual variants: "stripe" (split layout) and "simple" (solid layout)
  * - Interactive 3D hover effect with realistic page depth
- * - Customizable colors via Tailwind tokens
  */
 
 import { computed, ref, useSlots, onMounted, watch, type CSSProperties } from 'vue'
 import { defu } from 'defu'
+import { twMerge } from 'tailwind-merge'
 import { useAppConfig } from '#imports'
 
 export interface UBookProps {
 	title: string
 	variant?: 'stripe' | 'simple'
-	/**
-	 * Defines the base width footprint.
-	 * Accepts numbers (px), strings ('100%', '20rem', etc), or breakpoint objects.
-	 * Default is 196 for backwards compatibility.
-	 */
-	width?: string | number | Record<string, string | number>
 	color?: string
 	hexColor?: string
 	textColor?: string
@@ -62,7 +55,6 @@ const $cm = useUeColorMapping()
 
 const props = withDefaults(defineProps<UBookProps>(), {
 	variant: 'stripe',
-	width: 196,
 	textured: false,
 	pageThickness: 30,
 	cornerRadius: 6,
@@ -106,25 +98,24 @@ const finalTextColor = computed<string | undefined>(() => {
 const hasColor = computed(() => !!finalColor.value)
 
 // ---------------------------------------------------------------------------
-// Styles
+// Styles & Classes
 // ---------------------------------------------------------------------------
+
+// Uses tailwind-merge to allow user-provided width classes (like w-full)
+// to automatically overwrite the w-[196px] default!
+const perspectiveClasses = computed(() => {
+	return twMerge(
+		'book-perspective w-[196px]',
+		ui.value.perspective,
+		props.class
+	)
+})
+
 const perspectiveStyle = computed<CSSProperties>(() => {
-	const style: Record<string, unknown> = {
+	return {
 		'--_page-depth': `${props.pageThickness}px`,
 		'--_corner-radius': `${props.cornerRadius}px`,
-	}
-
-	// Feeds the variables natively rather than forcing a strict inline `width` property declaration.
-	// This permits Tailwind utility classes applied to the root to easily win.
-	if (typeof props.width === 'object' && props.width !== null) {
-		for (const [bp, val] of Object.entries(props.width)) {
-			style[`--${bp}-book-width`] = typeof val === 'number' ? `${val}px` : val
-		}
-	} else if (props.width) {
-		style['--book-width'] = typeof props.width === 'number' ? `${props.width}px` : props.width
-	}
-
-	return style as CSSProperties
+	} as CSSProperties
 })
 
 const wrapperStyle = computed<CSSProperties>(() => {
@@ -153,8 +144,6 @@ const wrapperClasses = computed(() =>
 	),
 )
 
-const isResponsive = computed(() => typeof props.width === 'object' && props.width !== null)
-
 async function toLink() {
 	if (props.to)
 		await navigateTo(props.to, { external: props.external })
@@ -163,12 +152,7 @@ async function toLink() {
 
 <template>
 	<div
-		:class="[
-			'book-perspective',
-			isResponsive ? 'book-responsive' : '',
-			ui.perspective,
-			$props.class,
-		]"
+		:class="perspectiveClasses"
 		:style="perspectiveStyle"
 		data-slot="perspective"
 		@click="toLink"
@@ -191,13 +175,7 @@ async function toLink() {
 						<span :class="slotClass('book-title', 'title')" data-slot="title">{{ title }}</span>
 						<div :class="slotClass('book-logo', 'logo')" data-slot="logo">
 							<slot name="logo">
-								<svg
-									height="18"
-									viewBox="0 0 76 65"
-									fill="currentColor"
-									width="18"
-									xmlns="http://www.w3.org/2000/svg"
-								>
+								<svg height="18" viewBox="0 0 76 65" fill="currentColor" width="18" xmlns="http://www.w3.org/2000/svg">
 									<path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
 								</svg>
 							</slot>
@@ -217,13 +195,7 @@ async function toLink() {
 							data-slot="simple-illustration"
 						>
 							<slot name="illustration">
-								<svg
-									fill="none"
-									height="56"
-									viewBox="0 0 36 56"
-									width="36"
-									xmlns="http://www.w3.org/2000/svg"
-								>
+								<svg fill="none" height="56" viewBox="0 0 36 56" width="36" xmlns="http://www.w3.org/2000/svg">
 									<path clip-rule="evenodd" d="M3.03113 28.0005C6.26017 23.1765 11.7592 20.0005 18 20.0005C24.2409 20.0005 29.7399 23.1765 32.9689 28.0005C29.7399 32.8244 24.2409 36.0005 18 36.0005C11.7592 36.0005 6.26017 32.8244 3.03113 28.0005Z" fill="#0070F3" fill-rule="evenodd" />
 									<path clip-rule="evenodd" d="M32.9691 28.0012C34.8835 25.1411 36 21.7017 36 18.0015C36 8.06034 27.9411 0.00146484 18 0.00146484C8.05887 0.00146484 0 8.06034 0 18.0015C0 21.7017 1.11648 25.1411 3.03094 28.0012C6.25996 23.1771 11.7591 20.001 18 20.001C24.2409 20.001 29.74 23.1771 32.9691 28.0012Z" fill="#45DEC4" fill-rule="evenodd" />
 									<path clip-rule="evenodd" d="M32.9692 28.0005C29.7402 32.8247 24.241 36.001 18 36.001C11.759 36.001 6.25977 32.8247 3.03077 28.0005C1.11642 30.8606 0 34.2999 0 38C0 47.9411 8.05887 56 18 56C27.9411 56 36 47.9411 36 38C36 34.2999 34.8836 30.8606 32.9692 28.0005Z" fill="#E5484D" fill-rule="evenodd" />
@@ -267,45 +239,23 @@ async function toLink() {
 </template>
 
 <style scoped>
-/*
- * The :where() resets specificity to 0 so Tailwind's utility classes
- * (like w-full, w-64) easily override the backwards-compatible width prop default!
- */
-:where(.book-perspective) {
-	--_bw: var(--book-width, 196px);
-	width: var(--_bw);
-}
-
-:where(.book-perspective.book-responsive) {
-	--_bw: var(--sm-book-width, 196px);
-}
-@media (min-width: 768px) {
-	:where(.book-perspective.book-responsive) {
-		--_bw: var(--md-book-width, var(--sm-book-width, 196px));
-	}
-}
-@media (min-width: 1024px) {
-	:where(.book-perspective.book-responsive) {
-		--_bw: var(--lg-book-width, var(--md-book-width, var(--sm-book-width, 196px)));
-	}
-}
-
 .book-perspective {
 	--_page-depth: 24px;
 	--_corner-radius: 6px;
 	--_spine-width: 18px;
 
+	/* Forces height natively based directly on the dynamically provided width */
 	aspect-ratio: 1 / 1.38;
+
 	perspective: 1200px;
 	flex-shrink: 0;
 	cursor: default;
 }
 
-
 .book-wrapper {
 	position: relative;
 	width: 100%;
-	height: 100%; /* Height scales natively off the aspect-ratio map */
+	height: 100%;
 	transform-style: preserve-3d;
 	transform: rotateY(0deg);
 	transform-origin: left center;
