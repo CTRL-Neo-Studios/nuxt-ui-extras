@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {AvatarProps} from "@nuxt/ui";
+import type {UserProps} from "@nuxt/ui";
 
 const props = withDefaults(defineProps<{
-	data: AvatarProps[],
+	data: UserProps[],
 	class?: string
 }>(), {})
 </script>
