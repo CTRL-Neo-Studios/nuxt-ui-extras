@@ -1,11 +1,9 @@
 export default defineAppConfig({
-	uiExtras: {
-	}
-})
+	uiExtras: {},
+});
 
-declare module '@nuxt/schema' {
+declare module "@nuxt/schema" {
 	interface AppConfigInput {
-		uiExtras?: {
-		}
+		uiExtras?: {};
 	}
 }

@@ -2,6 +2,6 @@
 @import "@nuxt/ui";
 
 @theme static {
-	--font-sans: 'Geist', 'Inter', sans, sans-serif;
-	--font-mono: 'Geist Mono', monospace;
+	--font-sans: "Geist", "Inter", sans, sans-serif;
+	--font-mono: "Geist Mono", monospace;
 }

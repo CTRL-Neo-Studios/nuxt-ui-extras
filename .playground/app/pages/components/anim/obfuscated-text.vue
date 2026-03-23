@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import {wait} from "lib0/promise";
+import { wait } from "lib0/promise";
 
-const message = ref('actual content')
-const ready = ref(false)
+const message = ref("actual content");
+const ready = ref(false);
 
-loadMessage()
+loadMessage();
 
 async function loadMessage() {
-	await wait(5000)
-	message.value = 'actual content'
+	await wait(5000);
+	message.value = "actual content";
 	// Text updates but stays obfuscated (autoRevealOnChange=false).
 	// Flip `ready` to trigger the reveal:
-	ready.value = true
+	ready.value = true;
 }
 
-const obfRef = useTemplateRef('obfRef')
+const obfRef = useTemplateRef("obfRef");
 
 function onDataLoaded(text: string) {
 	// Programmatically trigger reveal
-	obfRef.value?.triggerReveal()
+	obfRef.value?.triggerReveal();
 }
 
 function scrambleAgain() {
-	obfRef.value?.reset()
+	obfRef.value?.reset();
 }
 </script>
 
@@ -59,7 +59,7 @@ function scrambleAgain() {
 						:glitch-interval="5000"
 						@revealed="console.log('text revealed!')"
 					/>
-					<div>{{ready}}</div>
+					<div>{{ ready }}</div>
 
 					<UeAnimObfuscatedText
 						ref="obfRef"
@@ -96,6 +96,4 @@ function scrambleAgain() {
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

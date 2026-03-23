@@ -1,12 +1,7 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-	<DashboardContentPanel title="Installation">
-
-	</DashboardContentPanel>
+	<DashboardContentPanel title="Installation"> </DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

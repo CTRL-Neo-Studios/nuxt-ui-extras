@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import {useRepoFilesUrl} from "~/composables/useRepoFilesUrl";
+import { useRepoFilesUrl } from "~/composables/useRepoFilesUrl";
 
-const $cfg = useRuntimeConfig()
-const props = withDefaults(defineProps<{
-	title?: string,
-	description?: string,
-	sourceUrl?: string
-}>(), {})
+const $cfg = useRuntimeConfig();
+const props = withDefaults(
+	defineProps<{
+		title?: string;
+		description?: string;
+		sourceUrl?: string;
+	}>(),
+	{},
+);
 </script>
 
 <template>
@@ -14,18 +17,18 @@ const props = withDefaults(defineProps<{
 		<UPageHeader
 			:title
 			:description
-			:links="[{
-				label: 'View Source on GitHub',
-				to: useRepoFilesUrl(sourceUrl),
-				external: true
-			}]"
+			:links="[
+				{
+					label: 'View Source on GitHub',
+					to: useRepoFilesUrl(sourceUrl),
+					external: true,
+				},
+			]"
 		/>
 		<UPageBody>
-			<slot/>
+			<slot />
 		</UPageBody>
 	</UPage>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

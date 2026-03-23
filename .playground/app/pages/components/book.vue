@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<DashboardContentPanel title="Book">
@@ -75,13 +73,13 @@
 								<!--                            <path d="M147 48.5H122.5C108.969 48.5 98 59.469 98 73V132" stroke="#ECAF14" />-->
 								<!--                            <path d="M98 132.5H73.5C59.969 132.5 49 121.531 49 108V98.9512" stroke="#ECAF14" />-->
 								<!--                        </svg>-->
-								<NuxtImg class="w-full h-full object-contain" src="https://picsum.photos/400/800"/>
+								<NuxtImg
+									class="w-full h-full object-contain"
+									src="https://picsum.photos/400/800"
+								/>
 							</template>
 						</UeBook>
-						<UeBook
-							title="The user experience of the Frontend Cloud"
-							variant="simple"
-						>
+						<UeBook title="The user experience of the Frontend Cloud" variant="simple">
 							<template #illustration>
 								<div class="object-cover w-full h-full">
 									<svg
@@ -96,7 +94,9 @@
 										stroke-linejoin="round"
 										class="opacity-60"
 									>
-										<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+										<path
+											d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+										/>
 										<circle cx="9" cy="10" r="1" fill="currentColor" />
 										<circle cx="12" cy="10" r="1" fill="currentColor" />
 										<circle cx="15" cy="10" r="1" fill="currentColor" />
@@ -119,15 +119,29 @@
 				<UPageCard title="Textured" variant="naked">
 					<div class="flex flex-col gap-8">
 						<div class="flex flex-row items-baseline justify-start gap-8">
-							<UeBook hex-color="#7DC1C1" textured title="Design Engineering at CTRL Neo Studios" />
-							<UeBook hex-color="#9D2127" textured title="Design Engineering at CTRL Neo Studios" />
-							<UeBook color="cararra" textured title="Design Engineering at CTRL Neo Studios" to="https://ctrl-neo.dev" external>
+							<UeBook
+								hex-color="#7DC1C1"
+								textured
+								title="Design Engineering at CTRL Neo Studios"
+							/>
+							<UeBook
+								hex-color="#9D2127"
+								textured
+								title="Design Engineering at CTRL Neo Studios"
+							/>
+							<UeBook
+								color="cararra"
+								textured
+								title="Design Engineering at CTRL Neo Studios"
+								to="https://ctrl-neo.dev"
+								external
+							>
 								<template #logo>
 									<UTooltip text="User 1, User 2, and others...">
 										<UAvatarGroup>
-											<UAvatar src="https://picsum.photos/512/512?random=1"/>
-											<UAvatar src="https://picsum.photos/512/512?random=2"/>
-											<UAvatar src="https://picsum.photos/512/512?random=3"/>
+											<UAvatar src="https://picsum.photos/512/512?random=1" />
+											<UAvatar src="https://picsum.photos/512/512?random=2" />
+											<UAvatar src="https://picsum.photos/512/512?random=3" />
 										</UAvatarGroup>
 									</UTooltip>
 								</template>
@@ -163,6 +177,4 @@
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

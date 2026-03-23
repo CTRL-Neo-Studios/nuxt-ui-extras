@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<DashboardContentPanel title="LoadingDots">
@@ -40,6 +39,4 @@
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

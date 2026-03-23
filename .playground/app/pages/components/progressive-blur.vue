@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<DashboardContentPanel title="UeProgressiveBlur">
@@ -10,7 +9,11 @@
 				sourceUrl="/components/Ue/ProgressiveBlur.vue"
 			>
 				<div class="w-full h-full relative rounded-lg">
-					<NuxtImg src="https://picsum.photos/2560/1440" alt="Progressive Blur Image" class="w-full h-full"/>
+					<NuxtImg
+						src="https://picsum.photos/2560/1440"
+						alt="Progressive Blur Image"
+						class="w-full h-full"
+					/>
 					<UeProgressiveBlur
 						class="absolute bottom-0 left-0 w-full h-[50%]"
 						direction="bottom"
@@ -26,6 +29,4 @@
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

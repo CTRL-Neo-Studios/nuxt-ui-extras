@@ -12,4 +12,3 @@ export function useUeMouseState() {
 		setMouseEntered,
 	};
 }
-

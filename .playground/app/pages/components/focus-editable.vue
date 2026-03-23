@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const content = ref('# Click me to edit\nanything\nanytime\nany place')
-const tempContent = ref('# Click me to edit\nanything\nanytime\nany place')
+const content = ref("# Click me to edit\nanything\nanytime\nany place");
+const tempContent = ref("# Click me to edit\nanything\nanytime\nany place");
 </script>
 
 <template>
@@ -11,16 +11,21 @@ const tempContent = ref('# Click me to edit\nanything\nanytime\nany place')
 				description="The FocusEditable component inspired by Reka UI's Editable component."
 				sourceUrl="/components/Ue/FocusEditable.vue"
 			>
-				<UeFocusEditable @submit="() => content = tempContent">
+				<UeFocusEditable @submit="() => (content = tempContent)">
 					<template #default>
-						<MDC :value="content"/>
+						<MDC :value="content" />
 					</template>
 					<template #editing="{ submit, cancel }">
 						<div>
-							<UTextarea v-model="tempContent" class="w-full h-full"/>
+							<UTextarea v-model="tempContent" class="w-full h-full" />
 							<div class="space-x-2 mt-2">
-								<UButton label="Submit" @click="submit"/>
-								<UButton label="Cancel" variant="outline" color="neutral" @click="cancel"/>
+								<UButton label="Submit" @click="submit" />
+								<UButton
+									label="Cancel"
+									variant="outline"
+									color="neutral"
+									@click="cancel"
+								/>
 							</div>
 						</div>
 					</template>
@@ -30,6 +35,4 @@ const tempContent = ref('# Click me to edit\nanything\nanytime\nany place')
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 const items = [
 	{
-		title: 'item-1',
-		id: 1
+		title: "item-1",
+		id: 1,
 	},
 	{
-		title: 'item-2',
-		id: 2
+		title: "item-2",
+		id: 2,
 	},
 	{
-		title: 'item-3',
-		id: 3
-	}
-]
+		title: "item-3",
+		id: 3,
+	},
+];
 </script>
 
 <template>
@@ -49,6 +49,4 @@ const items = [
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

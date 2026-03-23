@@ -130,28 +130,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div
-		ref="liquidGlassRoot"
-		class="effect"
-		:class="[props.containerClass]"
-		:style="baseStyle"
-	>
-		<div
-			class="slot-container"
-			:class="[props.class]"
-		>
+	<div ref="liquidGlassRoot" class="effect" :class="[props.containerClass]" :style="baseStyle">
+		<div class="slot-container" :class="[props.class]">
 			<slot />
 		</div>
 
-		<svg
-			class="filter"
-			xmlns="http://www.w3.org/2000/svg"
-		>
+		<svg class="filter" xmlns="http://www.w3.org/2000/svg">
 			<defs>
-				<filter
-					id="displacementFilter"
-					color-interpolation-filters="sRGB"
-				>
+				<filter id="displacementFilter" color-interpolation-filters="sRGB">
 					<feImage
 						x="0"
 						y="0"
@@ -205,18 +191,8 @@ onUnmounted(() => {
 						values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"
 						result="blue"
 					/>
-					<feBlend
-						in="red"
-						in2="green"
-						mode="screen"
-						result="rg"
-					/>
-					<feBlend
-						in="rg"
-						in2="blue"
-						mode="screen"
-						result="output"
-					/>
+					<feBlend in="red" in2="green" mode="screen" result="rg" />
+					<feBlend in="rg" in2="blue" mode="screen" result="output" />
 					<feGaussianBlur :stdDeviation="displace" />
 				</filter>
 			</defs>
@@ -234,17 +210,17 @@ onUnmounted(() => {
 	background: light-dark(hsl(0 0% 100% / var(--frost, 0)), hsl(0 0% 0% / var(--frost, 0)));
 	box-shadow:
 		0 0 2px 1px
-		light-dark(
-			color-mix(in oklch, canvasText, #0000 85%),
-			color-mix(in oklch, canvasText, #0000 90%)
-		)
-		inset,
+			light-dark(
+				color-mix(in oklch, canvasText, #0000 85%),
+				color-mix(in oklch, canvasText, #0000 90%)
+			)
+			inset,
 		0 0 10px 4px
-		light-dark(
-			color-mix(in oklch, canvasText, #0000 90%),
-			color-mix(in oklch, canvasText, #0000 95%)
-		)
-		inset,
+			light-dark(
+				color-mix(in oklch, canvasText, #0000 90%),
+				color-mix(in oklch, canvasText, #0000 95%)
+			)
+			inset,
 		0px 4px 16px rgba(17, 17, 26, 0.05),
 		0px 8px 24px rgba(17, 17, 26, 0.05),
 		0px 16px 56px rgba(17, 17, 26, 0.05),
@@ -268,4 +244,3 @@ onUnmounted(() => {
 	pointer-events: none;
 }
 </style>
-

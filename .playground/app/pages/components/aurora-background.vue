@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<DashboardContentPanel title="AuroraBackground">
@@ -9,12 +8,10 @@
 				description="The AuroraBackground component from Inspira UI: https://inspira-ui.com/docs/en/components/backgrounds/aurora-background"
 				sourceUrl="/components/Ue/AuroraBackground.vue"
 			>
-				<UeAuroraBackground/>
+				<UeAuroraBackground />
 			</DashboardContentPage>
 		</UContainer>
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

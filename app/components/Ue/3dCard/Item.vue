@@ -55,4 +55,3 @@ watch(mouseState.isMouseEntered, handleAnimation, { immediate: true });
 		<slot />
 	</component>
 </template>
-

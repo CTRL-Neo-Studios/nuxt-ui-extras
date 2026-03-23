@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const seed = ref('hello-world')
+const seed = ref("hello-world");
 </script>
 
 <template>
@@ -26,6 +26,4 @@ const seed = ref('hello-world')
 	</DashboardContentPanel>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

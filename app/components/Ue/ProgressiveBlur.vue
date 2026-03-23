@@ -73,9 +73,8 @@ const getGradientStyle = (index: number) => {
 				maskImage: getGradientStyle(index),
 				webkitMaskImage: getGradientStyle(index),
 				backdropFilter: `blur(${(index - 1) * props.blurIntensity}px)`,
-		  	}"
+			}"
 			v-bind="attrs"
 		/>
 	</div>
 </template>
-
