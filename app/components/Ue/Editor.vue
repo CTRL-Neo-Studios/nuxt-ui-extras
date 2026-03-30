@@ -6,7 +6,7 @@ const modelValue = defineModel("modelValue", {
 });
 const props = withDefaults(
 	defineProps<{
-		disabled: boolean;
+		disabled?: boolean;
 	}>(),
 	{
 		disabled: false,
