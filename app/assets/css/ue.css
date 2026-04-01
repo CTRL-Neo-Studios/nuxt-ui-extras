@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@import "tw-animate-css";
 
 @theme static {
 	--color-background: var(--ui-bg);
@@ -35,6 +36,10 @@
 }
 
 @theme inline {
+	/* -------------------------------------------------------------------------
+	 * Existing keyframes
+	 * ----------------------------------------------------------------------- */
+
 	--animate-aurora: aurora 60s linear infinite;
 	@keyframes aurora {
 		from {
@@ -48,9 +53,125 @@
 				350% 50%;
 		}
 	}
+
+	/* -------------------------------------------------------------------------
+	 * ue-anim-* animation tokens
+	 * All keyframes animate only `transform` and/or `opacity` (GPU-safe),
+	 * except blur-in/out which also animate `filter: blur()`.
+	 * ----------------------------------------------------------------------- */
+
+	/* Fade + directional slide (24px offset — matches FadeIn.vue default) */
+	--animate-ue-fade-up:    ue-fade-up    var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-fade-down:  ue-fade-down  var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-fade-left:  ue-fade-left  var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-fade-right: ue-fade-right var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+
+	/* Pure fade */
+	--animate-ue-fade-in:  ue-fade-in  var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-fade-out: ue-fade-out var(--duration-exit,  375ms) cubic-bezier(0.7, 0, 0.84, 0) both;
+
+	/* Scale entrance / exit */
+	--animate-ue-scale-in:  ue-scale-in  var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-scale-out: ue-scale-out var(--duration-exit,  375ms) cubic-bezier(0.7, 0, 0.84, 0) both;
+
+	/* Blur reveal (matches BlurIn.vue concept) */
+	--animate-ue-blur-in:  ue-blur-in  var(--duration-enter, 500ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-blur-out: ue-blur-out var(--duration-exit,  375ms) cubic-bezier(0.7, 0, 0.84, 0) both;
+
+	/* Translate-only slide (no opacity change — for elements already visible) */
+	--animate-ue-slide-up:   ue-slide-up   var(--duration-normal, 300ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+	--animate-ue-slide-down: ue-slide-down var(--duration-normal, 300ms) cubic-bezier(0.16, 1, 0.3, 1) both;
+
+	/* Looping utilities */
+	--animate-ue-pulse:   ue-pulse   2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+	--animate-ue-shimmer: ue-shimmer 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+	/* --- Keyframe bodies --- */
+
+	@keyframes ue-fade-up {
+		from { opacity: 0; transform: translateY(24px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes ue-fade-down {
+		from { opacity: 0; transform: translateY(-24px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes ue-fade-left {
+		from { opacity: 0; transform: translateX(24px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+	@keyframes ue-fade-right {
+		from { opacity: 0; transform: translateX(-24px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+	@keyframes ue-fade-in {
+		from { opacity: 0; }
+		to   { opacity: 1; }
+	}
+	@keyframes ue-fade-out {
+		from { opacity: 1; }
+		to   { opacity: 0; }
+	}
+	@keyframes ue-scale-in {
+		from { opacity: 0; transform: scale(0.95); }
+		to   { opacity: 1; transform: scale(1); }
+	}
+	@keyframes ue-scale-out {
+		from { opacity: 1; transform: scale(1); }
+		to   { opacity: 0; transform: scale(0.95); }
+	}
+	@keyframes ue-blur-in {
+		from { opacity: 0; filter: blur(8px); }
+		to   { opacity: 1; filter: blur(0px); }
+	}
+	@keyframes ue-blur-out {
+		from { opacity: 1; filter: blur(0px); }
+		to   { opacity: 0; filter: blur(8px); }
+	}
+	@keyframes ue-slide-up {
+		from { transform: translateY(12px); }
+		to   { transform: translateY(0); }
+	}
+	@keyframes ue-slide-down {
+		from { transform: translateY(-12px); }
+		to   { transform: translateY(0); }
+	}
+	@keyframes ue-pulse {
+		0%, 100% { opacity: 1; }
+		50%       { opacity: 0.45; }
+	}
+	@keyframes ue-shimmer {
+		from { transform: translateX(-100%); }
+		to   { transform: translateX(100%); }
+	}
 }
 
 :root {
+	/* -------------------------------------------------------------------------
+	 * Motion design tokens
+	 * Easing curves match the motion-v component defaults used project-wide.
+	 * Use these as `transition-timing-function` values or in animations.
+	 * ----------------------------------------------------------------------- */
+
+	/* Easing */
+	--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);    /* smooth, refined */
+	--ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);   /* slightly snappier */
+	--ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);    /* confident, decisive — project default */
+	--ease-in-expo:   cubic-bezier(0.7, 0, 0.84, 0);    /* for exits */
+	--ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);   /* for bidirectional toggles */
+
+	/* Duration scale */
+	--duration-instant: 100ms;   /* button press, toggle, color change */
+	--duration-fast:    200ms;   /* hover states, tooltips */
+	--duration-normal:  300ms;   /* state changes, menus */
+	--duration-slow:    500ms;   /* layout changes, modals */
+	--duration-enter:   500ms;   /* entrance animations */
+	--duration-exit:    375ms;   /* exits are ~75% of enter */
+
+	/* -------------------------------------------------------------------------
+	 * Shadcn / Reka UI variable bridge (legacy compat)
+	 * ----------------------------------------------------------------------- */
+
 	--background: var(--ui-bg);
 	--foreground: var(--ui-text);
 
@@ -79,4 +200,200 @@
 	--destructive-foreground: var(--ui-text-inverted);
 
 	--ring: var(--ui-primary);
+}
+
+/* =============================================================================
+ * ue-anim-* utility classes
+ *
+ * ENTRANCE ANIMATIONS — apply once on mount / scroll trigger
+ *   ue-anim-fade-up      Fade in while rising 24px
+ *   ue-anim-fade-down    Fade in while descending 24px
+ *   ue-anim-fade-left    Fade in while sliding left (from right)
+ *   ue-anim-fade-right   Fade in while sliding right (from left)
+ *   ue-anim-fade-in      Pure opacity fade
+ *   ue-anim-fade-out     Pure opacity fade-out
+ *   ue-anim-scale-in     Scale 0.95 → 1 + fade
+ *   ue-anim-scale-out    Scale 1 → 0.95 + fade (for exits)
+ *   ue-anim-blur-in      Blur 8px → 0 + fade
+ *   ue-anim-blur-out     Blur 0 → 8px + fade (for exits)
+ *   ue-anim-slide-up     Translate-only rise (no opacity)
+ *   ue-anim-slide-down   Translate-only descend (no opacity)
+ *
+ * LOOP UTILITIES
+ *   ue-anim-pulse        Gentle opacity oscillation for idle/alive states
+ *   ue-anim-shimmer      Skeleton loading sweep (requires overflow-hidden)
+ *
+ * INTERACTION UTILITIES (built-in :hover / :active)
+ *   ue-anim-hover-lift   translateY(-2px) + shadow on hover
+ *   ue-anim-hover-scale  scale(1.02) on hover
+ *   ue-anim-press        scale(0.97) on :active
+ *   ue-anim-hover-glow   Primary color shadow glow on hover
+ *
+ * STAGGER HELPER
+ *   ue-anim-stagger      Set --i: 0,1,2… on children; each gets a staggered delay
+ *
+ * TRANSITION PRESET
+ *   ue-transition        Smooth transform + opacity transition (expo-out, 300ms)
+ * ============================================================================= */
+
+/* --- Entrance animations --- */
+
+@utility ue-anim-fade-up {
+	animation: var(--animate-ue-fade-up);
+}
+@utility ue-anim-fade-down {
+	animation: var(--animate-ue-fade-down);
+}
+@utility ue-anim-fade-left {
+	animation: var(--animate-ue-fade-left);
+}
+@utility ue-anim-fade-right {
+	animation: var(--animate-ue-fade-right);
+}
+@utility ue-anim-fade-in {
+	animation: var(--animate-ue-fade-in);
+}
+@utility ue-anim-fade-out {
+	animation: var(--animate-ue-fade-out);
+}
+@utility ue-anim-scale-in {
+	animation: var(--animate-ue-scale-in);
+}
+@utility ue-anim-scale-out {
+	animation: var(--animate-ue-scale-out);
+}
+@utility ue-anim-blur-in {
+	animation: var(--animate-ue-blur-in);
+}
+@utility ue-anim-blur-out {
+	animation: var(--animate-ue-blur-out);
+}
+@utility ue-anim-slide-up {
+	animation: var(--animate-ue-slide-up);
+}
+@utility ue-anim-slide-down {
+	animation: var(--animate-ue-slide-down);
+}
+
+/* --- Loop utilities --- */
+
+@utility ue-anim-pulse {
+	animation: var(--animate-ue-pulse);
+}
+
+/*
+ * ue-anim-shimmer: wrap the shimmer layer itself in a container with
+ * `overflow-hidden position-relative`. The shimmer element gets a
+ * semi-transparent gradient sweep that looks like a skeleton highlight.
+ */
+@utility ue-anim-shimmer {
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			color-mix(in srgb, var(--ui-bg) 0%, white 12%) 50%,
+			transparent 100%
+		);
+		animation: var(--animate-ue-shimmer);
+		pointer-events: none;
+	}
+}
+
+/* --- Interaction utilities --- */
+
+@utility ue-anim-hover-lift {
+	transition:
+		transform  var(--duration-fast, 200ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)),
+		box-shadow var(--duration-fast, 200ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px -4px color-mix(in srgb, currentColor 12%, transparent);
+	}
+}
+
+@utility ue-anim-hover-scale {
+	transition: transform var(--duration-fast, 200ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+
+	&:hover {
+		transform: scale(1.02);
+	}
+}
+
+@utility ue-anim-press {
+	transition: transform var(--duration-instant, 100ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+
+	&:active {
+		transform: scale(0.97);
+	}
+}
+
+@utility ue-anim-hover-glow {
+	transition: box-shadow var(--duration-fast, 200ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+
+	&:hover {
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--ui-primary) 25%, transparent);
+	}
+}
+
+/* --- Stagger helper --- */
+
+/*
+ * Usage: add ue-anim-stagger to EACH child, then set --i on each element.
+ *   <div class="ue-anim-fade-up ue-anim-stagger" style="--i: 0">…</div>
+ *   <div class="ue-anim-fade-up ue-anim-stagger" style="--i: 1">…</div>
+ *
+ * Cap total stagger: 10 items × 60ms = 600ms max.
+ * For longer lists reduce per-item delay or clamp --i.
+ */
+@utility ue-anim-stagger {
+	animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* --- Transition preset --- */
+
+/*
+ * A sensible default transition for elements that change state
+ * (show/hide toggles, hover effects, interactive cards, etc.)
+ */
+@utility ue-transition {
+	transition:
+		transform  var(--duration-normal, 300ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)),
+		opacity    var(--duration-normal, 300ms) var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+/* =============================================================================
+ * Reduced-motion safety net
+ *
+ * Collapses ALL custom animation and transition durations to near-zero.
+ * Functional animations (spinners via .ue-anim-pulse, progress bars) are
+ * re-enabled with a slow, non-spatial alternative so they still convey state.
+ * ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration:        0.01ms !important;
+		animation-iteration-count: 1      !important;
+		transition-duration:       0.01ms !important;
+		scroll-behavior:           auto   !important;
+	}
+
+	/* Restore functional loop animations — slowed down, no spatial movement */
+	.ue-anim-pulse {
+		animation: ue-pulse 4s linear infinite !important;
+	}
+
+	/* Shimmer: keep the glow sweep but collapse spatial translate to zero */
+	.ue-anim-shimmer::after {
+		animation-duration: 2s !important;
+		animation-iteration-count: infinite !important;
+	}
 }

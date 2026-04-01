@@ -1,4 +1,4 @@
-import useQuickToasts from '~/composables/useQuickToasts'
+import useQuickToasts from "../composables/useQuickToasts"
 
 interface ActionParameters<T = unknown> {
 	action(): Promise<T>,
