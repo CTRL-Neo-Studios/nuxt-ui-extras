@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import {fileURLToPath} from "node:url";
+import {dirname, join} from "node:path";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
@@ -8,12 +8,11 @@ export default defineNuxtConfig({
 	$meta: {
 		name: "@ctrl-neo/nuxt-ui-extras",
 	},
-	devtools: { enabled: true },
+	devtools: {enabled: true},
 	modules: [
 		"@nuxt/fonts",
 		"@nuxt/image",
 		"@nuxt/ui",
-		"@nuxtjs/mdc",
 		"@vueuse/nuxt",
 		"motion-v/nuxt",
 	],
