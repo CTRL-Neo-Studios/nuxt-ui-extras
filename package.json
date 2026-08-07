@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@nuxt/fonts": "0.14.0",
 		"@types/node": "^26.1.2",
-		"nuxt": "^4.5.1",
+		"nuxt": "^4.5.2",
 		"typescript": "^6.0.3",
 		"vue": "^3.5.40"
 	}
