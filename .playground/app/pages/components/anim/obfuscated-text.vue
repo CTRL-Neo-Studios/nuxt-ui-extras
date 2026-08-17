@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { wait } from "lib0/promise";
+const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 const message = ref("actual content");
 const ready = ref(false);

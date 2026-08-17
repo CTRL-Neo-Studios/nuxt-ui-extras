@@ -78,7 +78,7 @@ let glitchTimerId: ReturnType<typeof setTimeout> | null = null;
 // ─── Helpers ─────────────────────────────────────────────────────
 
 function randomChar(): string {
-	return props.errString[Math.floor(Math.random() * props.errString.length)];
+	return props.errString[Math.floor(Math.random() * props.errString.length)]!;
 }
 
 function randomChars(length: number): string[] {
@@ -100,9 +100,9 @@ function buildDisplay() {
 		if (state.glitchOverrides.has(i)) {
 			chars.push(state.glitchOverrides.get(i)!);
 		} else if (state.resolved[i]) {
-			chars.push(target[i]);
+			chars.push(target[i]!);
 		} else {
-			chars.push(target[i] === " " ? " " : state.scrambled[i]);
+			chars.push(target[i] === " " ? " " : state.scrambled[i]!);
 		}
 	}
 	displayText.value = chars.join("");

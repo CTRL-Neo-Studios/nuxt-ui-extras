@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { Motion } from "motion-v";
+import type { ElementType } from "motion-v";
 
 export type BlurGradientDirection = "top" | "bottom" | "left" | "right";
 
@@ -46,7 +47,7 @@ interface BlurGradientProps {
 	 */
 	hoverBlur?: number;
 	/** @default 'div' */
-	as?: string;
+	as?: ElementType;
 }
 
 const props = withDefaults(defineProps<BlurGradientProps>(), {
@@ -168,19 +169,19 @@ defineExpose({
 		class="blur-mask-overlay"
 		:class="{ 'is-hoverable': hoverable }"
 		:style="{
-			'mask-image': maskStyles.maskImage,
-			'-webkit-mask-image': maskStyles.maskImage,
-			'mask-size': maskStyles.maskSize,
-			'-webkit-mask-size': maskStyles.maskSize,
-			'mask-repeat': 'no-repeat',
-			'-webkit-mask-repeat': 'no-repeat',
+			maskImage: maskStyles.maskImage,
+			webkitMaskImage: maskStyles.maskImage,
+			maskSize: maskStyles.maskSize,
+			webkitMaskSize: maskStyles.maskSize,
+			maskRepeat: 'no-repeat',
+			webkitMaskRepeat: 'no-repeat',
 		}"
 		:initial="initialParams"
 		:animate="currentAnimate"
 		:while-in-view="currentWhileInView"
 		:while-hover="hoverParams"
 		:transition="transitionParams"
-		:viewport="{ once: true, amount: 0 }"
+		:in-view-options="{ once: true, amount: 0 }"
 	/>
 </template>
 

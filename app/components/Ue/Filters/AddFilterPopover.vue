@@ -107,8 +107,8 @@
 						:ui="{
               input: '[&>input]:h-8 [&>input]:text-sm'
             }"
-						@update:model-value="(item) => handleNestedFieldSelect(index, item)"
-						@highlight="(highlighted) => handleNestedHighlight(index, highlighted)"
+						@update:model-value="(item: CommandPaletteItem | CommandPaletteItem[]) => handleNestedFieldSelect(index, item)"
+						@highlight="(highlighted: CommandPaletteHighlight) => handleNestedHighlight(index, highlighted)"
 					>
 						<template #empty>
 							<div class="py-4 text-center text-sm text-gray-500">
@@ -165,6 +165,7 @@ import { ref, computed, nextTick } from 'vue'
 import { collectAllFields, getFieldGroups, hasGroups } from '../../../../shared/utils/fields'
 import { getDefaultOperatorForFieldType } from '../../../../shared/utils/operators'
 import SelectOptionsPopover from './SelectOptionsPopover.vue'
+type CommandPaletteHighlight = { ref: HTMLElement, value: CommandPaletteItem } | undefined;
 
 interface Props {
 	fields: FilterFieldsConfig

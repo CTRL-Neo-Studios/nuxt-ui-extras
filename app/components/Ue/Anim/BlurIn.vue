@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { Motion } from "motion-v";
+import type { ElementType } from "motion-v";
 
 interface BlurInProps {
 	/**
@@ -37,7 +38,7 @@ interface BlurInProps {
 	 * HTML tag to render as the wrapper element
 	 * @default 'div'
 	 */
-	as?: string;
+	as?: ElementType;
 	/**
 	 * Programmatically force visibility.
 	 * - `true`: Forces element to reveal (bypasses scroll)
@@ -121,7 +122,7 @@ defineExpose({
 		:initial="initialParams"
 		:animate="currentAnimate"
 		:while-in-view="currentWhileInView"
-		:viewport="{ once: props.once, amount: props.threshold }"
+		:in-view-options="{ once: props.once, amount: props.threshold }"
 		:transition="transitionParams"
 	>
 		<slot />

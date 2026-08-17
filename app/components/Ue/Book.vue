@@ -30,7 +30,7 @@ export interface UBookSlots {
  */
 
 import { computed, ref, useSlots, onMounted, watch, type CSSProperties } from "vue";
-import { defu } from "defu";
+import defu from "defu";
 import { twMerge } from "tailwind-merge";
 import { useAppConfig } from "#imports";
 

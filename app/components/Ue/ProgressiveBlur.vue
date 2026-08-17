@@ -60,6 +60,15 @@ const getGradientStyle = (index: number) => {
 
 	return `linear-gradient(${GRADIENT_ANGLES[props.direction]}deg, ${gradientStops.join(", ")})`;
 };
+// motion-v's `style` prop is `MotionStyleProps` (no `null`), but Vue's `:style`
+// binding is typed `StyleValue` (includes `null`) on the concrete `as="div"` path.
+function getBlurStyle(index: number): any {
+	return {
+		maskImage: getGradientStyle(index),
+		webkitMaskImage: getGradientStyle(index),
+		backdropFilter: `blur(${(index - 1) * props.blurIntensity}px)`,
+	};
+}
 </script>
 
 <template>
@@ -69,11 +78,7 @@ const getGradientStyle = (index: number) => {
 			:key="index"
 			as="div"
 			class="pointer-events-none absolute inset-0 rounded-[inherit]"
-			:style="{
-				maskImage: getGradientStyle(index),
-				webkitMaskImage: getGradientStyle(index),
-				backdropFilter: `blur(${(index - 1) * props.blurIntensity}px)`,
-			}"
+			:style="getBlurStyle(index)"
 			v-bind="attrs"
 		/>
 	</div>

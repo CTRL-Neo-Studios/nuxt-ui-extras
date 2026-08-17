@@ -136,9 +136,10 @@ onMounted(() => {
 
 			// Directly writing to inline styles avoids component reactivity overhead
 			// and handles layout repaints natively on the GPU
-			if (!!dots[i]) {
-				dots[i].style.opacity = `${currentOpacity}`;
-				dots[i].style.transform = `scale(${currentScale})`;
+			const dot = dots[i];
+			if (dot) {
+				dot.style.opacity = `${currentOpacity}`;
+				dot.style.transform = `scale(${currentScale})`;
 			}
 		}
 

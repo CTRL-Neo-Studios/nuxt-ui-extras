@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { Motion } from "motion-v";
+import type { ElementType } from "motion-v";
 
 export type FadeOrientation = "ltr" | "rtl" | "ttb" | "btt" | "none";
 
@@ -20,7 +21,7 @@ interface FadeOutProps {
 	/** @default false */
 	once?: boolean;
 	/** @default 'div' */
-	as?: string;
+	as?: ElementType;
 	/**
 	 * Programmatically force the fade-out triggering mechanism.
 	 * - `true`: Forces element to fade out (bypasses scroll)
@@ -123,7 +124,7 @@ defineExpose({
 		:initial="initialParams"
 		:animate="currentAnimate"
 		:while-in-view="currentWhileInView"
-		:viewport="{ once: props.once, amount: props.threshold }"
+		:in-view-options="{ once: props.once, amount: props.threshold }"
 		:transition="transitionParams"
 	>
 		<slot />
