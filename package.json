@@ -14,10 +14,14 @@
 	"main": "./dist/module.mjs",
 	"typesVersions": {
 		"*": {
-			".": ["./dist/types.d.mts"]
+			".": [
+				"./dist/types.d.mts"
+			]
 		}
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"prepack": "nuxt-module-build build",
 		"dev": "bun run dev:prepare && nuxt dev playground",
@@ -51,6 +55,12 @@
 	"peerDependencies": {
 		"tailwindcss": "^4"
 	},
-	"trustedDependencies": ["esbuild", "vue-demi"],
-	"packageManager": "bun@1.4.2"
+	"trustedDependencies": [
+		"esbuild",
+		"vue-demi"
+	],
+	"packageManager": "bun@1.4.2",
+	"engines": {
+		"node": ">=22"
+	}
 }

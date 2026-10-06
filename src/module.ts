@@ -3,7 +3,6 @@ import {
 	createResolver,
 	addComponentsDir,
 	addImportsDir,
-	hasNuxtModule,
 	installModule,
 } from '@nuxt/kit'
 
@@ -18,9 +17,8 @@ export default defineNuxtModule<ModuleOptions>({
 	async setup(_options, nuxt) {
 		const resolver = createResolver(import.meta.url)
 
-		if (!hasNuxtModule('@nuxt/ui')) {
-			throw new Error('[@type32/nuxt-ui-extras] add "@nuxt/ui" to `modules` before "@type32/nuxt-ui-extras"')
-		}
+		// Idempotent: a no-op when the consumer already lists @nuxt/ui.
+		await installModule('@nuxt/ui')
 		await installModule('motion-v/nuxt')
 
 		nuxt.options.css.push(resolver.resolve('runtime/app/assets/css/ue.css'))
