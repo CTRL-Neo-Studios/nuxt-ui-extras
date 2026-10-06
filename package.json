@@ -2,7 +2,10 @@
 	"name": "@type32/nuxt-ui-extras",
 	"version": "0.1.1",
 	"description": "Extra components, composables and filters on top of @nuxt/ui",
-	"repository": "CTRL-Neo-Studios/nuxt-ui-extras",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CTRL-Neo-Studios/nuxt-ui-extras.git"
+	},
 	"license": "MIT",
 	"type": "module",
 	"exports": {
@@ -28,7 +31,7 @@
 		"dev:build": "nuxt build playground",
 		"dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
 		"typecheck": "vue-tsc --noEmit",
-		"release": "bun run prepack && changelogen --release && bun publish --access public && git push --follow-tags"
+		"release": "bun run prepack && changelogen --release && npm publish --access public --ignore-scripts && git push --follow-tags"
 	},
 	"dependencies": {
 		"@nuxt/kit": "^4.6.0",
