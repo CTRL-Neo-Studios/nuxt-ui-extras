@@ -1,6 +1,6 @@
 {
 	"name": "@type32/nuxt-ui-extras",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Extra components, composables and filters on top of @nuxt/ui",
 	"repository": "CTRL-Neo-Studios/nuxt-ui-extras",
 	"license": "MIT",
