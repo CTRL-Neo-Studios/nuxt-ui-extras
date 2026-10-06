@@ -1,5 +1,24 @@
-# Nuxt UI Extras
+# @type32/nuxt-ui-extras
 
-This is a Nuxt Layer that contains some Nuxt-UI-v4-based extra/utility components to use in projects.
+Extra components (`<Ue*>`), composables and a filter system on top of `@nuxt/ui`.
 
-- Added https://github.com/nuxt/ui/pull/5434
+```bash
+bun add @type32/nuxt-ui-extras
+```
+
+```ts
+// nuxt.config.ts — @nuxt/ui must come first
+export default defineNuxtConfig({
+  modules: ["@nuxt/ui", "@type32/nuxt-ui-extras"],
+})
+```
+
+Ships its own Tailwind theme layer (`ue.css`) and installs `motion-v/nuxt`. Requires `tailwindcss@^4`.
+
+## Dev
+
+```bash
+bun install
+bun run dev        # playground
+bun run release    # build + changelog + publish
+```

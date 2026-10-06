@@ -1,34 +1,56 @@
 {
 	"name": "@type32/nuxt-ui-extras",
-	"version": "0.0.2",
+	"version": "0.1.0",
+	"description": "Extra components, composables and filters on top of @nuxt/ui",
+	"repository": "CTRL-Neo-Studios/nuxt-ui-extras",
+	"license": "MIT",
 	"type": "module",
-	"main": "./nuxt.config.ts",
+	"exports": {
+		".": {
+			"types": "./dist/types.d.mts",
+			"import": "./dist/module.mjs"
+		}
+	},
+	"main": "./dist/module.mjs",
+	"typesVersions": {
+		"*": {
+			".": ["./dist/types.d.mts"]
+		}
+	},
+	"files": ["dist"],
 	"scripts": {
-		"dev": "nuxi dev .playground",
-		"dev:prepare": "nuxt prepare .playground",
-		"build": "nuxt build .playground",
-		"generate": "nuxt generate .playground",
-		"preview": "nuxt preview .playground",
-		"typecheck": "nuxt typecheck"
+		"prepack": "nuxt-module-build build",
+		"dev": "bun run dev:prepare && nuxt dev playground",
+		"dev:build": "nuxt build playground",
+		"dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
+		"typecheck": "vue-tsc --noEmit",
+		"release": "bun run prepack && changelogen --release && bun publish --access public && git push --follow-tags"
 	},
 	"dependencies": {
-		"@nuxt/image": "2.1.0",
-		"@nuxt/ui": "4.11.3",
-		"@vueuse/nuxt": "15.0.0",
+		"@nuxt/kit": "^4.6.0",
+		"@nuxt/ui": "^4.11.3",
 		"defu": "^6.1.7",
 		"motion-v": "^2.5.2",
 		"tailwind-merge": "^3.7.0",
-		"tailwindcss": "^4.3.3",
 		"tw-animate-css": "^1.4.0"
 	},
 	"devDependencies": {
-		"@golar/vue": "^0.1.10",
 		"@nuxt/fonts": "0.14.0",
+		"@nuxt/image": "2.1.0",
+		"@nuxt/module-builder": "^1.0.3",
+		"@nuxt/schema": "^4.6.0",
 		"@types/node": "^26.6.4",
-		"golar": "^0.1.10",
+		"@vueuse/nuxt": "15.0.0",
+		"changelogen": "^0.6.2",
 		"nuxt": "^4.6.0",
+		"tailwindcss": "^4.3.3",
 		"typescript": "6.0.3",
-		"vue": "^3.5.43"
+		"vue": "^3.5.43",
+		"vue-tsc": "^3.3.12"
 	},
-	"packageManager": "pnpm@12.8.1"
+	"peerDependencies": {
+		"tailwindcss": "^4"
+	},
+	"trustedDependencies": ["esbuild", "vue-demi"],
+	"packageManager": "bun@1.3.14"
 }
