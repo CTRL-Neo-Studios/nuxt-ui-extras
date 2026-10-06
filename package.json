@@ -52,5 +52,5 @@
 		"tailwindcss": "^4"
 	},
 	"trustedDependencies": ["esbuild", "vue-demi"],
-	"packageManager": "bun@1.3.14"
+	"packageManager": "bun@1.4.2"
 }
