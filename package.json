@@ -34,26 +34,26 @@
 		"release": "bun run prepack && changelogen --release && npm publish --access public --ignore-scripts && git push --follow-tags"
 	},
 	"dependencies": {
-		"@nuxt/kit": "^4.6.0",
-		"@nuxt/ui": "^4.11.3",
+		"@nuxt/kit": "^4.6.4",
+		"@nuxt/ui": "^4.13.0",
 		"defu": "^6.1.7",
-		"motion-v": "^2.5.2",
+		"motion-v": "^2.13.0",
 		"tailwind-merge": "^3.7.0",
 		"tw-animate-css": "^1.4.0"
 	},
 	"devDependencies": {
-		"@nuxt/fonts": "0.14.0",
-		"@nuxt/image": "2.1.0",
-		"@nuxt/module-builder": "^1.0.3",
-		"@nuxt/schema": "^4.6.0",
-		"@types/node": "^26.6.4",
+		"@nuxt/fonts": "1.2.0",
+		"@nuxt/image": "2.2.1",
+		"@nuxt/module-builder": "^1.0.4",
+		"@nuxt/schema": "^4.6.4",
+		"@types/node": "^26.6.6",
 		"@vueuse/nuxt": "15.0.0",
 		"changelogen": "^0.6.2",
-		"nuxt": "^4.6.0",
-		"tailwindcss": "^4.3.3",
+		"nuxt": "^4.6.4",
+		"tailwindcss": "^4.3.5",
 		"typescript": "6.0.3",
-		"vue": "^3.5.43",
-		"vue-tsc": "^3.3.12"
+		"vue": "^3.5.45",
+		"vue-tsc": "^3.3.14"
 	},
 	"peerDependencies": {
 		"tailwindcss": "^4"
