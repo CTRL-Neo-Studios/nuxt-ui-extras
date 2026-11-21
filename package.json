@@ -12,7 +12,8 @@
 		".": {
 			"types": "./dist/types.d.mts",
 			"import": "./dist/module.mjs"
-		}
+		},
+		"./ue.css": "./dist/runtime/app/assets/css/ue.css"
 	},
 	"main": "./dist/module.mjs",
 	"typesVersions": {

@@ -21,7 +21,6 @@ export default defineNuxtModule<ModuleOptions>({
 		await installModule('@nuxt/ui')
 		await installModule('motion-v/nuxt')
 
-		nuxt.options.css.push(resolver.resolve('runtime/app/assets/css/ue.css'))
 		nuxt.options.build.transpile.push('tailwind-merge', 'motion-v')
 
 		addComponentsDir({

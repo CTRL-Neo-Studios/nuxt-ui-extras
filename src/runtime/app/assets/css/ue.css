@@ -1,6 +1,15 @@
-@import "tailwindcss";
-@import "@nuxt/ui";
+/*
+ * Import this after Tailwind and Nuxt UI in the app's main CSS, so it joins the app's one Tailwind build:
+ *   @import "tailwindcss";
+ *   @import "@nuxt/ui";
+ *   @import "@type32/nuxt-ui-extras/ue.css";
+ * It must not import Tailwind or Nuxt UI itself: a second build here would bring its own theme
+ * (system fonts, default colors) and reset, which override the app's once this file loads.
+ */
 @import "tw-animate-css";
+
+/* The Ue components' classes, from wherever the package is installed. */
+@source "../../components";
 
 @theme static {
 	--color-background: var(--ui-bg);

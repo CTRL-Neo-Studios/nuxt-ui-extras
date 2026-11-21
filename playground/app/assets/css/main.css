@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+/* Consumers write `@import "@type32/nuxt-ui-extras/ue.css";`; the playground uses the source. */
+@import "../../../src/runtime/app/assets/css/ue.css";
 
 @theme static {
 	--font-sans: "Geist", "Inter", sans, sans-serif;
